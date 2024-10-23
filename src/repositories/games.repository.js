@@ -16,8 +16,12 @@ async function create({ name, image, stockTotal, pricePerDay }) {
   const resultado = await findAll()
   return resultado.rows
 }
+async function findById(gameId) {
+  const game = await db.query(`select * from games where id = $1`, [gameId])
+  return game.rows
+}
 
 const gamesRepository = {
-  verifyGameName, create, findAll
+  verifyGameName, create, findAll, findById
 }
 export default gamesRepository

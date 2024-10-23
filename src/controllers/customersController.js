@@ -11,20 +11,22 @@ async function createCustomer(req, res) {
   return res.status(201).send("Cliente cadastrado com sucesso")
 }
 
-async function getAllCustomers(req, res) {
+async function getCustomers(req, res) {
   if (req.params.id) {
-    return getCustomersById(req, res)
+    console.log("Rota com parametro")
+    const customer = await findCustomerByIdService(req.params.id)
+    if (customer.length > 0) {
+      return res.status(200).send(customer)
+    } else {
+      return res.status(404).send("Id não encontrado")
+    }
   }
-  console.log(req.params.id)
+  console.log("Rota sem parametro")
   const resultado = await getAllCustomersService()
   return res.status(200).send(resultado)
-}
-async function getCustomersById(req, res) {
-  console.log("query")
-  const id = req.params.id
-  const customer = await findCustomerByIdService(id)
-  console.log(customer)
+
 }
 
-const customersControllers = { createCustomer, getAllCustomers, getCustomersById }
+
+const customersControllers = { createCustomer, getCustomers }
 export default customersControllers

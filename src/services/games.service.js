@@ -13,3 +13,7 @@ export async function createGameService({ name, image, stockTotal, pricePerDay }
   const resultado = await gamesRepository.create({ name, image, stockTotal, pricePerDay })
   return resultado
 }
+export async function findGameByIdService(id) {
+  const resultado = await gamesRepository.findById(id)
+  return resultado
+}
