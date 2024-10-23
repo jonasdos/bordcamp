@@ -9,3 +9,4 @@ export default function newRentalValidate(req, res, next) {
 
   next()
 }
+
