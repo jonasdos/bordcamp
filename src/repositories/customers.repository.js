@@ -15,10 +15,10 @@ async function verifyCustomerCpf(cpf) {
   return resultado.rows
 }
 async function create({ name, phone, cpf }) {
-  await db.query(
-    `insert into customers(name, phone, cpf) values($1, $2, $3)`, [name, phone, cpf]
+  const resultado = await db.query(
+    `insert into customers(name, phone, cpf) values($1, $2, $3) returning *`, [name, phone, cpf]
   )
-  const resultado = await findAll()
+
   return resultado.rows
 }
 

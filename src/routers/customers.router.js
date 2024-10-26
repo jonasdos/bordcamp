@@ -1,11 +1,11 @@
 import { Router } from "express";
 import newCustomerValidate from "../middlewares/newCustomerValidate.js"
-import customersControllers from "../controllers/customersController.js";
+import { createCustomer, getCustomers, getCustomerbyId } from "../controllers/customersController.js";
 const customersRouters = Router()
 
-customersRouters.post("/customers", newCustomerValidate, customersControllers.createCustomer)
-customersRouters.get("/customers", customersControllers.getCustomers)
-customersRouters.get("/customers/:id", customersControllers.getCustomers)
+customersRouters.post("/customers", newCustomerValidate, createCustomer)
+customersRouters.get("/customers", getCustomers)
+customersRouters.get("/customers/:id", getCustomerbyId)
 
 
 

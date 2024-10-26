@@ -6,10 +6,15 @@ export async function getAllGamesService() {
 }
 export async function verifyGameNameService(name) {
   const resultado = await gamesRepository.verifyGameName(name)
+  if (resultado && resultado.length > 0) {
+    throw {
+      type: "Conflict",
+      message: "Existe um jogo cadastrado com esse nome"
+    }
+  }
   return resultado
 }
 export async function createGameService({ name, image, stockTotal, pricePerDay }) {
-
   const resultado = await gamesRepository.create({ name, image, stockTotal, pricePerDay })
   return resultado
 }

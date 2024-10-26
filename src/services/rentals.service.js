@@ -6,6 +6,18 @@ export async function newRentalService(rental) {
 }
 export async function verifyRentalService(id) {
   const resultado = await rentalsRepository.verifyRentalRepository(id)
+  if (resultado === undefined || resultado.length === 0) {
+    throw {
+      type: "Not Found",
+      message: "Aluguel não encontrado"
+    }
+  }
+  if (resultado.returnDate != null) {
+    throw {
+      type: "Indisponibilidade",
+      message: "Aluguel já finalizado"
+    }
+  }
   return resultado
 }
 export async function returnRentService(rental) {
@@ -14,9 +26,28 @@ export async function returnRentService(rental) {
 }
 export async function findAllRentalsService() {
   const resultado = await rentalsRepository.findAllRentalsRepository()
+  if (resultado === null || resultado.length === 0) {
+    throw {
+      type: "Not Found",
+      Message: "Ainda não há alugueis cadastrados"
+    }
+  }
   return resultado
 }
 export async function deleteRentalService(id) {
-  const resultado = await rentalsRepository.deleteRental(id)
+  const resultado = await rentalsRepository.verifyRentalRepository(id)
+  if (resultado === undefined || resultado.length === 0) {
+    throw {
+      type: "Not Found",
+      message: "Aluguel não encontrado"
+    }
+  }
+  if (resultado.returnDate === null) {
+    throw {
+      type: "Indisponibilidade",
+      message: "Aluguel precisa ser dado baixa para ser deletado"
+    }
+  }
+  await rentalsRepository.deleteRental(id)
   return resultado
 }

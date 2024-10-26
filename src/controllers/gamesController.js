@@ -1,12 +1,7 @@
 import { createGameService, getAllGamesService, verifyGameNameService } from "../services/games.service.js";
 
 async function createGame(req, res) {
-  const gameName = req.body.name
-  const jogoExiste = await verifyGameNameService(gameName)
-
-  if (jogoExiste && jogoExiste.length > 0) {
-    return res.status(409).send("já existe um cadastro com esse nome")
-  }
+  await verifyGameNameService(req.body.name)
   await createGameService(req.body)
   return res.status(201).send("Jogo cadastrado com sucesso")
 }

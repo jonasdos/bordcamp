@@ -56,23 +56,17 @@ async function returnRent(rental) {
     delayFee = 0
   }
 
-  try {
-    await db.query(`update rentals
+  await db.query(`update rentals
     set "returnDate" = $1,"delayFee" = $3
     where id = $2`, [dataAtual, rental.id, delayFee])
-    await db.query(`
+  await db.query(`
       update games
       set "stockTotal" = "stockTotal"+1
       where id = $1
       `, [rental.gameId])
-    return true
-  }
-  catch (error) {
-    console.log(error)
-    return false
-  }
-
+  return
 }
+
 async function deleteRental(id) {
   await db.query(`delete from rentals where id = $1`, [id])
 
